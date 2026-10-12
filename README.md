@@ -6,8 +6,6 @@ An end-to-end containerized sentiment analysis web application built with Stream
 
 ## 🏗️ System Architecture
 
-## 🏗️ System Architecture
-
 ```mermaid
 flowchart TD
     subgraph Step1 ["1. Local Environment"]
