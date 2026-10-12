@@ -3,7 +3,6 @@
 An end-to-end containerized sentiment analysis web application built with Streamlit and deployed to AWS ECS Fargate via Amazon Elastic Container Registry (ECR).
 
 ---
-
 ## 🏗️ System Architecture
 
 ```mermaid
@@ -27,9 +26,9 @@ flowchart TD
         G[Browser Access: http://PUBLIC_IP:8501]
     end
 
-    Step1 -- "docker push (AWS CLI)" --> Step2
-    Step2 -- "pulls image" --> Step3
-    Step3 -- "provisions public IP" --> Step4
+    Step1 -->|docker push via AWS CLI| Step2
+    Step2 -->|pulls image| Step3
+    Step3 -->|provisions public IP| Step4
 
     style Step1 fill:#f9f9f9,stroke:#333,stroke-width:1px
     style Step2 fill:#e1f5fe,stroke:#0288d1,stroke-width:1px
