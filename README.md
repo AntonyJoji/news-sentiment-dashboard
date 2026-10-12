@@ -6,36 +6,37 @@ An end-to-end containerized sentiment analysis web application built with Stream
 
 ## 🏗️ System Architecture
 
-+-------------------------------------------------------------+
-|                     Local Machine                           |
-|  - Streamlit App (app.py)                                   |
-|  - Docker Engine (Dockerfile build & test on :8501)         |
-+------------------------------+------------------------------+
-|
-| (docker push via AWS CLI)
-v
-+-------------------------------------------------------------+
-|                 Amazon ECR (Mumbai: ap-south-1)             |
-|  - Repository: streamlit-docker-demo                        |
-|  - Tag: latest                                              |
-+------------------------------+------------------------------+
-|
-| (Pulls container image)
-v
-+-------------------------------------------------------------+
-|                 Amazon ECS (AWS Fargate)                    |
-|  - Cluster: news-sentiment-cluster                          |
-|  - Task Definition: streamlit-sentiment-task                |
-|  - Service: streamlit-sentiment-task-service                |
-|  - Security Group: streamlit-ecs-sg (Inbound Port 8501)     |
-+------------------------------+------------------------------+
-|
-| (Exposes Task Public IP)
-v
-[ Web Browser ]
-http://<AWS_PUBLIC_IP>:8501
+## 🏗️ System Architecture
 
----
+```mermaid
+flowchart TD
+    subgraph Step1 ["1. Local Environment"]
+        A[Python Code: app.py] --> B[Docker Engine: Port 8501]
+    end
+
+    subgraph Step2 ["2. AWS Container Registry (ECR)"]
+        C[(Amazon ECR: streamlit-docker-demo)]
+    end
+
+    subgraph Step3 ["3. AWS Serverless Compute (ECS Fargate)"]
+        D[ECS Cluster: news-sentiment-cluster]
+        E[Task Definition: streamlit-sentiment-task]
+        F[Security Group: Port 8501 Inbound]
+        D --> E --> F
+    end
+
+    subgraph Step4 ["4. Live User Access"]
+        G[Browser Access: http://PUBLIC_IP:8501]
+    end
+
+    Step1 -- "docker push (AWS CLI)" --> Step2
+    Step2 -- "pulls image" --> Step3
+    Step3 -- "provisions public IP" --> Step4
+
+    style Step1 fill:#f9f9f9,stroke:#333,stroke-width:1px
+    style Step2 fill:#e1f5fe,stroke:#0288d1,stroke-width:1px
+    style Step3 fill:#fff3e0,stroke:#f57c00,stroke-width:1px
+    style Step4 fill:#e8f5e9,stroke:#388e3c,stroke-width:1px
 
 ## ⚙️ How It Works
 
@@ -119,6 +120,6 @@ http://<TASK_PUBLIC_IP>:8501
 4. Stopping / Cost Management
 To avoid Fargate runtime charges when not presenting:
 
-Open ECS $\rightarrow$ Clusters $\rightarrow$ news-sentiment-cluster $\rightarrow$ Services.Click Update service $\rightarrow$ change Desired tasks to 0.
+Open ECS --> Clusters --> news-sentiment-cluster --> Services.Click Update service --> change Desired tasks to 0.
 
 ---
