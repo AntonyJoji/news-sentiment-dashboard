@@ -3,6 +3,7 @@
 An end-to-end containerized sentiment analysis web application built with Streamlit and deployed to AWS ECS Fargate via Amazon Elastic Container Registry (ECR).
 
 ---
+
 ## 🏗️ System Architecture
 
 ```mermaid
@@ -35,7 +36,7 @@ flowchart TD
     style Step3 fill:#fff3e0,stroke:#f57c00,stroke-width:1px
     style Step4 fill:#e8f5e9,stroke:#388e3c,stroke-width:1px
 
-## ⚙️ How It Works
+⚙️ How It Works
 
 1. **Application Layer (`app.py`)**: 
    The dashboard runs on Streamlit and displays real-time sentiment distribution (positive, neutral, negative metrics), sentiment polarity doughnut charts, publisher polarity breakdowns, and a live article ingestion table.
